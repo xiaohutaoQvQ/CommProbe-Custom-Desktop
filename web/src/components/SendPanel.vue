@@ -11,6 +11,7 @@ import { analyzeHex, fixCrcTail, sanitizeHexInput, type HexAnalysis } from "../h
 /* DevTools 式收起：true 时整个操作带缩成一条，点击展开 */
 const props = defineProps<{ collapsed: boolean; dock: "bottom" | "left" | "right" }>();
 const emit = defineEmits<{ expand: []; collapse: [] }>();
+const isSideDock = computed(() => props.dock !== "bottom");
 
 interface SendItem {
   id: string;
@@ -346,7 +347,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section class="send" :class="{ 'send-right': dock === 'right' }">
+  <section class="send" :class="{ 'send-side': isSideDock }">
     <!-- 收起态：一条可点击的横条（DevTools 控制台收起式） -->
     <div v-show="collapsed" class="collapsed-bar" title="展开操作台" @click="emit('expand')">
       ⌃ 操作台（点击展开）
@@ -419,7 +420,7 @@ onUnmounted(() => {
         />
         <div class="quick-actions">
           <button
-            v-if="dock === 'right'"
+            v-if="isSideDock"
             ref="favoritesButton"
             class="favorites-btn"
             :class="{ looping: activeFavoritesLoops > 0 }"
@@ -470,22 +471,22 @@ onUnmounted(() => {
       </div>
     </div>
 
-    <!-- 右侧布局使用弹窗，其余布局保留原有列表 -->
-    <Teleport to="body" :disabled="dock !== 'right'">
+    <!-- 左右侧布局使用弹窗，底部布局保留原有列表 -->
+    <Teleport to="body" :disabled="!isSideDock">
       <div
-        v-show="dock !== 'right' || favoritesOpen"
+        v-show="!isSideDock || favoritesOpen"
         class="favorites-shell"
-        :class="{ 'favorites-modal': dock === 'right' }"
+        :class="{ 'favorites-modal': isSideDock }"
         @click.self="closeFavorites"
         @keydown.esc.stop="closeFavorites"
       >
         <div
           class="favorites-dialog"
-          :role="dock === 'right' ? 'dialog' : undefined"
-          :aria-modal="dock === 'right' ? 'true' : undefined"
-          :aria-labelledby="dock === 'right' ? 'favorites-title' : undefined"
+          :role="isSideDock ? 'dialog' : undefined"
+          :aria-modal="isSideDock ? 'true' : undefined"
+          :aria-labelledby="isSideDock ? 'favorites-title' : undefined"
         >
-          <div v-if="dock === 'right'" class="favorites-titlebar">
+          <div v-if="isSideDock" class="favorites-titlebar">
             <h2 id="favorites-title">常用报文</h2>
             <button ref="favoritesCloseButton" type="button" aria-label="关闭常用报文" @click="closeFavorites">✕</button>
           </div>
@@ -609,31 +610,31 @@ onUnmounted(() => {
 .quick .mode {
   flex-shrink: 0;
 }
-/* 右侧停靠时让输入区填满操作台可用高度。 */
-.send-right .quick {
+/* 左右侧停靠时让输入区填满操作台可用高度。 */
+.send-side .quick {
   flex: 1;
   min-height: 0;
   border-bottom: none;
 }
-.send-right .quick-controls { order: 0; }
-.send-right .feedback { order: 1; }
-.send-right .quick-row {
+.send-side .quick-controls { order: 0; }
+.send-side .feedback { order: 1; }
+.send-side .quick-row {
   order: 2;
   flex: 1;
   min-height: 0;
   flex-direction: column;
 }
-.send-right .quick-editor {
+.send-side .quick-editor {
   flex: 1;
   width: 100%;
   min-height: 0;
   height: auto;
 }
-.send-right .quick-actions {
+.send-side .quick-actions {
   width: 100%;
   justify-content: flex-end;
 }
-.send-right .send-btn {
+.send-side .send-btn {
   width: 110px;
   height: 38px;
 }

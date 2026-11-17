@@ -153,7 +153,7 @@ public final class Main {
         void close() {if(!closed.compareAndSet(false,true))return; flush(); closeResources(); status("closed",null);}
     }
     void run() throws IOException {
-        emit(message("hello").put("version","0.1.5"));
+        emit(message("hello").put("version","0.2.0"));
         try(BufferedReader in=new BufferedReader(new InputStreamReader(System.in,StandardCharsets.UTF_8))) {String line; while((line=in.readLine())!=null) {try{handle(JSON.readTree(line));}catch(Exception e){error("消息解析失败："+e.getMessage());}}}
         finally {for(Connection c:connections.values())c.close(); IO.shutdownNow(); TIMERS.shutdownNow(); records.close();}
     }

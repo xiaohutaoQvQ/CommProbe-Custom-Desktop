@@ -1,6 +1,6 @@
 {
   "name": "commprobe-custom-desktop",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "CommProbe-Custom-Desktop 桌面通信调试工具",
   "type": "module",
   "license": "MIT",
