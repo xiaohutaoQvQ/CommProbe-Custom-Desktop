@@ -1,0 +1,41 @@
+{
+  "name": "commprobe-custom-desktop",
+  "version": "0.1.5",
+  "description": "CommProbe-Custom-Desktop 桌面通信调试工具",
+  "type": "module",
+  "license": "MIT",
+  "workspaces": [
+    "web"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev:web": "npm run dev -w web",
+    "build:web": "npm run build -w web",
+    "desktop:dev": "sh scripts/prepare-backend.sh && tauri dev",
+    "desktop:build": "sh scripts/build-desktop.sh",
+    "lint": "eslint .",
+    "typecheck": "npm run typecheck -w web",
+    "test": "npm run test:web && npm run test:backend",
+    "test:web": "node --import tsx --test tests/web/*.test.ts",
+    "test:backend": "mvn -B -ntp -f desktop-backend/pom.xml clean package && python3 tests/test_backend.py"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.20.0",
+    "@tauri-apps/cli": "^2.12.5",
+    "concurrently": "^9.1.2",
+    "eslint": "^9.20.0",
+    "eslint-config-prettier": "^10.0.1",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.0",
+    "typescript-eslint": "^8.24.0",
+    "tsx": "^4.19.0"
+  },
+  "allowScripts": {
+    "@serialport/bindings-cpp@12.0.1": true,
+    "esbuild@0.28.2": true,
+    "esbuild@0.25.12": true
+  },
+  "private": true
+}

@@ -1,0 +1,18 @@
+node_modules/
+dist/
+dist-portable/
+coverage/
+*.log
+.DS_Store
+.env
+.npmrc
+.claude/
+
+# 桌面应用构建产物
+/desktop-backend/target/
+/src-tauri/target/
+/src-tauri/gen/
+/build/
+
+# 本地 IDE 配置
+.idea/
