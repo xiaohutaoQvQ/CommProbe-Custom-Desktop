@@ -2,6 +2,16 @@
 
 面向 Apple 芯片 Mac 的桌面通信调试工具，基于 Tauri、Vue 和 Java，支持 TCP 客户端、TCP 服务端、UDP 和串口。
 
+## 技术架构
+
+**Tauri + Vue + Java**
+
+- **Tauri**：提供 macOS 桌面窗口和应用打包，管理 Java 后端进程的启动与退出。
+- **Vue**：实现操作界面、连接配置、报文发送和通信日志展示。
+- **Java**：实现 TCP、UDP、串口通信及报文处理，使用 jSerialComm 支持串口。
+
+Tauri 与 Java 后端通过进程标准输入、输出交换消息。打包后的应用无需单独启动后端或安装 Java 运行环境。
+
 ## 功能
 
 - 支持 TCP 客户端、TCP 服务端广播、UDP 收发和串口通信。
